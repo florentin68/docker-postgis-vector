@@ -6,6 +6,7 @@ name: Docker publish
 # documentation.
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*' # Trigger the workflow on any tag starting with 'v'
