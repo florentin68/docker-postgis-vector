@@ -1,35 +1,40 @@
-# docker-php - Docker image for PHP with commmon extensions
+# docker-postgis-vector
 
-This whole repository provides a Docker image for PHP, pre-configured with commonly used extensions and tools. It is designed to simplify the setup of PHP development and production environments.
+Image Docker pour exécuter PostgreSQL avec PostGIS et gérer des données géographiques et vectorielles.
 
-## Features
+## Construire l’image
 
-- PHP with popular extensions
-- FFMPEG for multimedia processing
-- Easy to customize via Dockerfile
+À la racine du dépôt :
 
-## Usage
+```bash
+docker build -t docker-postgis-vector .
+```
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/docker-php.git
-    cd docker-php
-    ```
+## Démarrer un conteneur
 
-2. Build the Docker image:
-    ```bash
-    docker build -t my-php-image .
-    ```
+```bash
+docker run --name postgis-vector \
+  -e POSTGRES_PASSWORD=change-me \
+  -p 5432:5432 \
+  -d docker-postgis-vector
+```
 
-3. Run a container:
-    ```bash
-    docker run -it --rm my-php-image
-    ```
+Définissez un mot de passe sécurisé pour tout usage autre qu’un environnement local. PostgreSQL est accessible sur le port `5432` depuis l’hôte. Pour conserver les données après la suppression du conteneur, configurez un volume persistant selon le répertoire de données défini par l’image.
 
-## Customization
+## Activer PostGIS
 
-You can modify the `Dockerfile` to add or remove PHP extensions as needed.
+Connectez-vous à la base souhaitée, puis activez l’extension :
 
-## License
+```sql
+CREATE EXTENSION postgis;
+```
 
-This project is licensed under the Unlicense (Unported License).
+Répétez cette commande dans chaque base de données qui doit utiliser PostGIS. Les extensions disponibles dépendent de celles installées dans l’image.
+
+## Personnalisation
+
+Modifiez le `Dockerfile` pour adapter l’image de base, les extensions installées ou la configuration du service.
+
+## Licence
+
+Ce projet est distribué sous licence Unlicense (Unported License).

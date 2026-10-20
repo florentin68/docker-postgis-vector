@@ -43,15 +43,16 @@ jobs:
       - name: Parse versions from Tag
         id: parse_versions
         run: |
-          # Exemple de tag attendu : v18-3.6-alpine-vector-0.8.7
-          # On extrait le tag sans le 'v' initial
+          # Si votre tag GitHub est : v18-3.6-alpine-vector-0.8.7
           TAG_NAME=${GITHUB_REF#refs/tags/v}
           echo "IMAGE_TAG=${TAG_NAME}" >> $GITHUB_OUTPUT
           
-          # Extraction dynamique des versions pour les arguments de build
-          # Sépare la partie PostGIS de la partie Vector à partir du mot '-vector-'
+          # Extrait la version PostGIS (ex: 18-3.6-alpine)
           POSTGIS_VER=$(echo $TAG_NAME | sed -e 's/-vector-.*//')
-          VECTOR_VER=v$(echo $TAG_NAME | sed -e 's/.*-vector-//')
+          
+          # Force le préfixe 'v' pour pgvector pour éviter l'échec de Git Clone (ex: v0.8.7)
+          VECTOR_RAW=$(echo $TAG_NAME | sed -e 's/.*-vector-//')
+          VECTOR_VER="v$(echo $VECTOR_RAW | sed -e 's/^v//')"
           
           echo "POSTGIS_VER=${POSTGIS_VER}" >> $GITHUB_OUTPUT
           echo "VECTOR_VER=${VECTOR_VER}" >> $GITHUB_OUTPUT
