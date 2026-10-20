@@ -26,9 +26,6 @@ RUN apk add --no-cache --virtual .build-deps \
         clang21 \
         llvm21 \
         make \
-    # Création des liens symboliques indispensables pour le Makefile de Postgres
-    && ln -s /usr/bin/clang /usr/bin/clang-21 \
-    && ln -s /usr/bin/lld /usr/bin/lld-21 \
     # Clonage et compilation de pgvector
     && git clone --branch ${PGVECTOR_VERSION} --depth 1 https://github.com/pgvector/pgvector.git /tmp/pgvector \
     && cd /tmp/pgvector \
@@ -37,5 +34,4 @@ RUN apk add --no-cache --virtual .build-deps \
     && make install \
     # Nettoyage
     && rm -rf /tmp/pgvector \
-    && rm /usr/bin/clang-21 /usr/bin/lld-21 \
     && apk del .build-deps
