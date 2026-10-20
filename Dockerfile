@@ -23,8 +23,8 @@ LABEL license="Unlicense"
 RUN apk add --no-cache --virtual .build-deps \
         git \
         build-base \
-        clang \
-        llvm \
+        clang19 \
+        llvm19 \
         make \
     && git clone --branch ${PGVECTOR_VERSION} --depth 1 https://github.com/pgvector/pgvector.git /tmp/pgvector \
     && cd /tmp/pgvector \
