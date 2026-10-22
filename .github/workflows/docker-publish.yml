@@ -115,23 +115,23 @@ jobs:
       #  # against the sigstore community Fulcio instance.
       #  run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: \${{ github.ref_name }}
-          name: Release \${{ steps.parse_versions.outputs.IMAGE_TAG }}
-          body: |
-            ## 🚀 Nouvelle image PostgreSQL personnalisée disponible !
+      # - name: Create GitHub Release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     tag_name: \${{ github.ref_name }}
+      #     name: Release \${{ steps.parse_versions.outputs.IMAGE_TAG }}
+      #     body: |
+      #       ## 🚀 Nouvelle image PostgreSQL personnalisée disponible !
             
-            Cette version combine **PostGIS** et **pgvector** dans une seule instance.
+      #       Cette version combine **PostGIS** et **pgvector** dans une seule instance.
             
-            ### 📌 Versions incluses :
-            - **Image de base (PostGIS) :** `postgis/postgis:${{ steps.parse_versions.outputs.POSTGIS_VER }}`
-            - **Extension de vecteurs (pgvector) :** `${{ steps.parse_versions.outputs.VECTOR_VER }}`
+      #       ### 📌 Versions incluses :
+      #       - **Image de base (PostGIS) :** `postgis/postgis:${{ steps.parse_versions.outputs.POSTGIS_VER }}`
+      #       - **Extension de vecteurs (pgvector) :** `${{ steps.parse_versions.outputs.VECTOR_VER }}`
             
-            ### 🐳 Utilisation dans votre Docker Compose :
-            ```yaml
-            image: ghcr.io/\({{ env.IMAGE_NAME }}:\){{ steps.parse_versions.outputs.IMAGE_TAG }}
-            ```
-          draft: false
-          prerelease: false
+      #       ### 🐳 Utilisation dans votre Docker Compose :
+      #       ```yaml
+      #       image: ghcr.io/\({{ env.IMAGE_NAME }}:\){{ steps.parse_versions.outputs.IMAGE_TAG }}
+      #       ```
+      #     draft: false
+      #     prerelease: false
