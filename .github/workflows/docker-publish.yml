@@ -42,20 +42,22 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Parse versions from Tag
+      - name: Parse versions
         id: parse_versions
         run: |
-          # Si votre tag GitHub est : v18-3.6-alpine-vector-0.8.7
-          TAG_NAME=${GITHUB_REF#refs/tags/v}
-          echo "IMAGE_TAG=${TAG_NAME}" >> $GITHUB_OUTPUT
-          
-          # Extrait la version PostGIS (ex: 18-3.6-alpine)
-          POSTGIS_VER=$(echo $TAG_NAME | sed -e 's/-vector-.*//')
-          
-          # Force le préfixe 'v' pour pgvector pour éviter l'échec de Git Clone (ex: v0.8.7)
-          VECTOR_RAW=$(echo $TAG_NAME | sed -e 's/.*-vector-//')
-          VECTOR_VER="v$(echo $VECTOR_RAW | sed -e 's/^v//')"
-          
+          # Si déclenché par un tag (ex: v18-3.6-alpine-vector-0.8.7)
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            TAG_NAME=${GITHUB_REF#refs/tags/v}
+            echo "IMAGE_TAG=${TAG_NAME}" >> $GITHUB_OUTPUT
+            POSTGIS_VER=$(echo $TAG_NAME | sed -e 's/-vector-.*//')
+            VECTOR_RAW=$(echo $TAG_NAME | sed -e 's/.*-vector-//')
+            VECTOR_VER="v$(echo $VECTOR_RAW | sed -e 's/^v//')"
+          else
+            # Sinon (push sur main), utiliser les valeurs par défaut du Dockerfile
+            echo "IMAGE_TAG=main" >> $GITHUB_OUTPUT
+            POSTGIS_VER="18-3.6-alpine"
+            VECTOR_VER="v0.8.7"
+          fi
           echo "POSTGIS_VER=${POSTGIS_VER}" >> $GITHUB_OUTPUT
           echo "VECTOR_VER=${VECTOR_VER}" >> $GITHUB_OUTPUT
 
