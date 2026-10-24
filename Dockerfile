@@ -27,9 +27,10 @@ RUN apk add --no-cache --virtual .build-deps \
         clang21 \
         llvm21 \
         make \
-    # Clonage et compilation de pgvector
-    && git clone --branch ${PGVECTOR_VERSION} --depth 1 https://github.com/pgvector/pgvector.git /tmp/pgvector \
+    # Clonage et checkout de la version pgvector (branche ou tag)
+    && git clone --depth 1 https://github.com/pgvector/pgvector.git /tmp/pgvector \
     && cd /tmp/pgvector \
+    && git checkout ${PGVECTOR_VERSION} \
     && make clean \
     && make OPTFLAGS="" \
     && make install \
