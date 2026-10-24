@@ -1,11 +1,12 @@
-# Argument for the PostGIS version, defaulting to 18-3.6-alpine
+# --- Versions gérées par Renovate ---
+# PostGIS base image version (Docker Hub)
 ARG POSTGIS_VERSION=18-3.6-alpine
 
-# Use the PostGIS image as the base image
-FROM postgis/postgis:${POSTGIS_VERSION}
-
-# Dynamic argument for the pgvector version
+# pgvector extension version (GitHub releases)
 ARG PGVECTOR_VERSION=v0.8.7
+
+# --- Build ---
+FROM postgis/postgis:${POSTGIS_VERSION}
 
 # Set labels for the image
 LABEL base_image="postgis/postgis:${POSTGIS_VERSION}"

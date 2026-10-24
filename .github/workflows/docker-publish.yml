@@ -8,6 +8,7 @@ name: Docker publish
 on:
   workflow_dispatch:
   push:
+    branches: [ "main" ]
     tags:
       - 'v*' # Trigger the workflow on any tag starting with 'v'
 
@@ -83,7 +84,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          push: true
+          push: ${{ github.event_name == 'push' && contains(github.ref, 'refs/tags/v') }}
           build-args: |
             POSTGIS_VERSION=${{ steps.parse_versions.outputs.POSTGIS_VER }}
             PGVECTOR_VERSION=${{ steps.parse_versions.outputs.VECTOR_VER }}
