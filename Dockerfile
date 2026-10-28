@@ -1,6 +1,6 @@
 # --- Versions gérées par Renovate ---
 # PostGIS base image version (Docker Hub)
-ARG POSTGIS_VERSION=18-3.6-alpine
+ARG POSTGIS_VERSION=18-3.6-alpine@sha256:c53a483fc274072dfa02cd491efa79f3c8ae0a10774a0ece6c9c53b6a632cdef
 
 # pgvector extension version (GitHub releases)
 ARG PGVECTOR_VERSION=v0.8.7
